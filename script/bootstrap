@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -x
+
+if [ "$(uname)" == "Darwin" ]; then
+  for pkg in bison cmake; do
+    if brew list -1 | grep -q "^${pkg}\$"; then
+        echo "Package '$pkg' is installed"
+    else
+        echo "Package '$pkg' is not installed"
+        brew install $pkg
+    fi
+  done
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+  sudo apt-get -qq -y install bison cmake
+fi
